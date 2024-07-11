@@ -1,5 +1,5 @@
-var nativeExtension = require('../');
-var assert = require('assert');
+const FileZip = require('../');
+const assert = require('assert');
 
 
 describe('zipper js', () => {
