@@ -1,3 +1,8 @@
 node_modules
-build/
 .vscode/
+
+# build directory except for .node files
+build/*
+!build/Release/
+build/Release/*
+!build/Release/*.node
