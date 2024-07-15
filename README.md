@@ -1,6 +1,6 @@
 # Zipper JS
 
-Concise documentation on learning zip file specs found [here][https://medium.com/@felixstridsberg/the-zip-file-format-6c8a160d1c34]
+Concise documentation on learning zip file specs found [here](https://medium.com/@felixstridsberg/the-zip-file-format-6c8a160d1c34)
 
 ## Building
 
