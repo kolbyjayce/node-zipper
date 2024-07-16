@@ -56,7 +56,9 @@ NAN_METHOD(FileZip::Zip) {
     v8::String::Utf8Value path(info.GetIsolate(), info[0]);
     std::string pathStr(*path);
 
-    // Placeholder for actual zip implementation
-    // For now, we'll just return the path
-    info.GetReturnValue().Set(info[0]);
+    FileZip* obj = Nan::ObjectWrap::Unwrap<FileZip>(info.Holder());
+
+    std::string testResult = obj->zipStream.Test(); 
+
+    info.GetReturnValue().Set(Nan::New(testResult).ToLocalChecked());
 }

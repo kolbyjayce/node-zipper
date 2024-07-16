@@ -8,7 +8,9 @@
             ],
             "sources": [
                 "src/index.cc",
-                "src/FileZip.cc"
+                "src/FileZip.cc",
+                "src/ZipStream.cc",
+                "src/PathTrie.cc"
             ]
         }
     ],
