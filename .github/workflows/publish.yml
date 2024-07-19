@@ -1,0 +1,54 @@
+name: Build and Publish to NPM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }} for Node ${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [16, 18, 20]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build
+    - run: npm test
+    - run: npm run package
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: binaries-${{ matrix.os }}-node${{ matrix.node-version }}
+        path: build/stage/*.tar.gz
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm ci
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: ./artifacts
+    - name: Prepare binaries
+      run: |
+        mkdir -p ./lib/binding
+        find ./artifacts -name '*.tar.gz' -exec cp {} ./lib/binding/ \;
+    - name: Publish to NPM
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
