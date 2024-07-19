@@ -23,8 +23,7 @@
     "install": "node-pre-gyp install --fallback-to-build",
     "test": "mocha",
     "build": "node-pre-gyp rebuild",
-    "package": "node-pre-gyp package",
-    "publish": "node-pre-gyp publish"
+    "package": "node-pre-gyp package"
   },
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.11",
