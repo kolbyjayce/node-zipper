@@ -23,7 +23,7 @@
     "install": "node-pre-gyp install --fallback-to-build",
     "test": "mocha",
     "build": "node-pre-gyp rebuild",
-    "package": "node-pre-gyp package",
+    "package": "node-pre-gyp package && mkdir -p build/stage && cp -r build/Release/*.tar.gz build/stage/",
     "publish": "node-pre-gyp publish"
   },
   "dependencies": {
