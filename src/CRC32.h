@@ -8,6 +8,9 @@
 #pragma once
 #include <cstdint>
 
+
+using namespace std;
+
 /// \brief A class for calculating the CRC32 checksum from arbitrary data.
 /// \sa http://forum.arduino.cc/index.php?topic=91179.0
 class CRC32
