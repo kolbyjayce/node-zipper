@@ -1,6 +1,6 @@
 {
   "name": "node-zipper",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "lib/binding/node-zipper.js",
   "type": "module",
   "exports": {
