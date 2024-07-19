@@ -109,9 +109,7 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
     fileProperties props{};
     props.fileSize = fileSize;
     props.crc32 = crc32;
-    std::cout << "NOW HERE" << std::endl;
-    props.lastModTime = time(nullptr);
-    std::cout << "NOW HERE" << std::endl;
+    props.lastModTime = time(nullptr); // TODO: get file actual last modified time
     
 
     // create central directory, increment central directory count
@@ -127,7 +125,6 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
     localHeaderOffset += static_cast<uint32_t>(fileHeader.size());
     centralDirectoryHeaderOffset += static_cast<uint32_t>(fileHeader.size());
     
-    std::cout << "FINISHED ADD" << std::endl;
     return 0;
 }
 
