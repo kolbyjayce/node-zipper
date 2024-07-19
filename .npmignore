@@ -1,0 +1,12 @@
+build/
+test/
+demo/
+.github/
+.gitignore
+.npmignore
+.npmrc
+binding.gyp
+src/
+.idea/
+.vscode/
+*.log

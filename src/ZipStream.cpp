@@ -102,7 +102,6 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
 //        return -1; // or handle error as appropriate
 //    }
     file.close();
-
     // Calculate CRC32
     uint32_t crc32 = calculateCRC32(fileContents);
 
@@ -110,7 +109,10 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
     fileProperties props{};
     props.fileSize = fileSize;
     props.crc32 = crc32;
-    props.lastModTime = reinterpret_cast<time_t>(localtime(nullptr)); // TODO: get actual last modified time of file
+    std::cout << "NOW HERE" << std::endl;
+    props.lastModTime = time(nullptr);
+    std::cout << "NOW HERE" << std::endl;
+    
 
     // create central directory, increment central directory count
     std::vector<uint8_t> record = createCentralDirectoryRecord(formattedFullPath, props);
@@ -124,7 +126,8 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
     // update offsets
     localHeaderOffset += static_cast<uint32_t>(fileHeader.size());
     centralDirectoryHeaderOffset += static_cast<uint32_t>(fileHeader.size());
-
+    
+    std::cout << "FINISHED ADD" << std::endl;
     return 0;
 }
 
