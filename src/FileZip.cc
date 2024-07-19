@@ -37,28 +37,43 @@ NAN_METHOD(FileZip::New) {
 
 NAN_METHOD(FileZip::Save) {
     if (info.Length() < 1 || !info[0]->IsString()) {
-      return Nan::ThrowTypeError("Path argument must be a string");
+        return Nan::ThrowTypeError("Path argument must be a string");
     }
     
     v8::String::Utf8Value path(info.GetIsolate(), info[0]);
-    std::string pathStr(*path);
-
-    // Placeholder for actual save implementation
-    // For now, we'll just return the path
-    info.GetReturnValue().Set(info[0]);
-}
-
-NAN_METHOD(FileZip::Zip) {
-    if (info.Length() < 1 || !info[0]->IsString()) {
-      return Nan::ThrowTypeError("Path argument must be a string");
-    }
-    
-    v8::String::Utf8Value path(info.GetIsolate(), info[0]);
-    std::string pathStr(*path);
+    std::string outputPath(*path);
 
     FileZip* obj = Nan::ObjectWrap::Unwrap<FileZip>(info.Holder());
 
-    std::string testResult = obj->zipStream.Test(); 
+    int result = obj->zipStream.Save(outputPath);
 
-    info.GetReturnValue().Set(Nan::New(testResult).ToLocalChecked());
+    if (result != 0) {
+        std::string errorMsg = "Failed to save zip file. Error code: " + std::to_string(result);
+        return Nan::ThrowError(errorMsg.c_str());
+    }
+
+    info.GetReturnValue().Set(Nan::Undefined());
+}
+
+NAN_METHOD(FileZip::Zip) {
+    if (info.Length() < 2 || !info[0]->IsString() || !info[1]->IsString()) {
+        return Nan::ThrowTypeError("Two string arguments required: pathToSave and fileLocation");
+    }
+    
+    v8::String::Utf8Value pathToSave(info.GetIsolate(), info[0]);
+    v8::String::Utf8Value fileLocation(info.GetIsolate(), info[1]);
+
+    std::string pathToSaveStr(*pathToSave);
+    std::string fileLocationStr(*fileLocation);
+
+    FileZip* obj = Nan::ObjectWrap::Unwrap<FileZip>(info.Holder());
+
+    int result = obj->zipStream.Add(pathToSaveStr, fileLocationStr);
+
+    if (result != 0) {
+        std::string errorMsg = "Failed to add file to zip. Error code: " + std::to_string(result);
+        return Nan::ThrowError(errorMsg.c_str());
+    }
+
+    info.GetReturnValue().Set(Nan::Undefined());
 }
