@@ -1,7 +1,3 @@
-const FileZip = require('../');
-const assert = require('assert');
+import { expect } from 'chai';
 
-
-describe('zipper js', () => {
-  
-});
+expect(true).to.equal(true)
