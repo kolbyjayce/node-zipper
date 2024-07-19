@@ -23,12 +23,12 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm test
-    - run: npm run package
+    - run: npm package
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: binaries-${{ matrix.os }}-node${{ matrix.node-version }}
-        path: build/stage/*.tar.gz
+        path: build/stage/node-zipper/v*/Release/*.tar.gz
 
   publish:
     needs: build
