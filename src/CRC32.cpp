@@ -4,7 +4,7 @@
 // SPDX-License-Identifier:	MIT
 //
 
-
+#include <cstddef>
 #include "CRC32.h"
 
 // Conditionally use pgm memory if it is available.
