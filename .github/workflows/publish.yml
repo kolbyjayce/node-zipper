@@ -31,11 +31,11 @@ jobs:
           else
             echo "platform=linux" >> $GITHUB_OUTPUT
           fi
-          echo "arch=${{ runner.arch }}" >> $GITHUB_OUTPUT
+          echo "arch=$(echo ${{ runner.arch }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
       - name: Get Node ABI
         id: node-abi
         shell: bash
-        run: echo "abi=$(node -p "process.versions.modules")" >> $GITHUB_OUTPUT
+        run: echo "abi=v$(node -p "process.versions.modules")" >> $GITHUB_OUTPUT
       - name: List build artifacts
         run: ls -R ./lib
       - name: Upload artifact
