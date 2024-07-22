@@ -22,17 +22,29 @@ jobs:
       - run: npm test
       - name: Get platform info
         id: platform
+        shell: bash
         run: |
-          echo "platform=${{ runner.os == 'Windows' && 'win32' || runner.os == 'macOS' && 'darwin' || 'linux' }}" >> $GITHUB_OUTPUT
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            echo "platform=win32" >> $GITHUB_OUTPUT
+          elif [ "${{ runner.os }}" == "macOS" ]; then
+            echo "platform=darwin" >> $GITHUB_OUTPUT
+          else
+            echo "platform=linux" >> $GITHUB_OUTPUT
+          fi
           echo "arch=${{ runner.arch }}" >> $GITHUB_OUTPUT
       - name: Get Node ABI
         id: node-abi
+        shell: bash
         run: echo "abi=$(node -p "process.versions.modules")" >> $GITHUB_OUTPUT
+      - name: List build artifacts
+        run: ls -R ./lib
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: node-zipper-${{ matrix.os }}-node${{ matrix.node-version }}
           path: ./lib/binding/Release/node-${{ steps.node-abi.outputs.abi }}-${{ steps.platform.outputs.platform }}-${{ steps.platform.outputs.arch }}/node-zipper.node
+          if-no-files-found: error
+
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -47,7 +59,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: ./artifacts
-      - name: List artifacts
+      - name: List downloaded artifacts
         run: ls -R ./artifacts
       - name: Prepare binaries
         run: |
