@@ -44,7 +44,6 @@ jobs:
           name: node-zipper-${{ matrix.os }}-node${{ matrix.node-version }}
           path: ./lib/binding/Release/node-${{ steps.node-abi.outputs.abi }}-${{ steps.platform.outputs.platform }}-${{ steps.platform.outputs.arch }}/node-zipper.node
           if-no-files-found: error
-
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -58,13 +57,17 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./artifacts
-      - name: List downloaded artifacts
-        run: ls -R ./artifacts
+          path: ./temp_artifacts
       - name: Prepare binaries
         run: |
           mkdir -p ./lib/binding/Release
-          find ./artifacts -type f -name 'node-zipper.node' -exec cp --parents {} ./lib/binding/Release/ \;
+          find ./temp_artifacts -type f -name 'node-zipper.node' | while read file; do
+            dir=$(dirname "$file")
+            target_dir="./lib/binding/Release/$(basename "$dir")"
+            mkdir -p "$target_dir"
+            cp "$file" "$target_dir/"
+          done
+          rm -rf ./temp_artifacts
       - name: List prepared binaries
         run: ls -R ./lib/binding
       - name: Publish to NPM
