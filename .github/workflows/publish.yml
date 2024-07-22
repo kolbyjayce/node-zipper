@@ -61,11 +61,10 @@ jobs:
       - name: Prepare binaries
         run: |
           mkdir -p ./lib/binding/Release
-          find ./temp_artifacts -type f -name 'node-zipper.node' | while read file; do
-            dir=$(dirname "$file")
-            target_dir="./lib/binding/Release/$(basename "$dir")"
-            mkdir -p "$target_dir"
-            cp "$file" "$target_dir/"
+          for dir in ./temp_artifacts/*; do
+            if [ -d "$dir" ]; then
+              cp -r "$dir" ./lib/binding/Release/
+            fi
           done
           rm -rf ./temp_artifacts
       - name: List prepared binaries
