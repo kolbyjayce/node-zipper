@@ -47,10 +47,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: ./artifacts
+      - name: List artifacts
+        run: ls -R ./artifacts
       - name: Prepare binaries
         run: |
           mkdir -p ./lib/binding/Release
-          find ./artifacts -name 'node-zipper.node' -exec cp --parents {} ./lib/binding/Release/ \;
+          find ./artifacts -type f -name 'node-zipper.node' -exec cp --parents {} ./lib/binding/Release/ \;
+      - name: List prepared binaries
+        run: ls -R ./lib/binding
       - name: Publish to NPM
         run: npm publish
         env:
