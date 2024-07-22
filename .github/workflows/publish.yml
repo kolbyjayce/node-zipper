@@ -41,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: node-zipper-${{ matrix.os }}-node${{ matrix.node-version }}
+          name: node-${{ steps.node-abi.outputs.abi }}-${{ steps.platform.outputs.platform }}-${{ steps.platform.outputs.arch }}
           path: ./lib/binding/Release/node-${{ steps.node-abi.outputs.abi }}-${{ steps.platform.outputs.platform }}-${{ steps.platform.outputs.arch }}/node-zipper.node
           if-no-files-found: error
   publish:
