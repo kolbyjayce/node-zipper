@@ -49,6 +49,24 @@ Napi::Value FileZip::Zip(const Napi::CallbackInfo& info) {
     return env.Undefined();
 }
 
+Napi::Value FileZip::ZipAsync(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() < 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsFunction()) {
+        Napi::TypeError::New(env, "Two string arguments and one callback function required").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    std::string pathToSaveStr = info[0].As<Napi::String>().Utf8Value();
+    std::string fileLocationStr = info[1].As<Napi::String>().Utf8Value();
+    Napi::Function callback = info[2].As<Napi::Function>();
+
+    ZipAsyncWorker* worker = new ZipAsyncWorker(callback, pathToSaveStr, fileLocationStr);
+    worker->Queue();
+
+    return env.Undefined();
+}
+
 Napi::Value FileZip::Save(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 

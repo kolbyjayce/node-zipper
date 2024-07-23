@@ -16,6 +16,10 @@
     "package_name": "{module_name}-v{version}-{node_abi}-{platform}-{arch}.tar.gz",
     "host": "https://github.com/kolbyjayce/node-zipper/releases/download"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/kolbyjayce/node-zipper"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
@@ -25,11 +29,9 @@
     "build": "node-pre-gyp rebuild",
     "package": "node-pre-gyp package"
   },
-  "dependencies": {
-    "@mapbox/node-pre-gyp": "^1.0.11",
-    "node-addon-api": "^8.1.0"
-  },
   "devDependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.11",
+    "node-addon-api": "^8.1.0",
     "chai": "^5.1.1",
     "mocha": "^10.6.0"
   }
