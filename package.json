@@ -1,6 +1,6 @@
 {
   "name": "node-zipper",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "lib/binding/node-zipper.js",
   "type": "module",
   "exports": {
@@ -29,9 +29,11 @@
     "build": "node-pre-gyp rebuild",
     "package": "node-pre-gyp package"
   },
-  "devDependencies": {
+  "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.11",
-    "node-addon-api": "^8.1.0",
+    "node-addon-api": "^8.1.0"
+  },
+  "devDependencies": {
     "chai": "^5.1.1",
     "mocha": "^10.6.0"
   }
