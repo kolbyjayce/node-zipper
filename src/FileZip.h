@@ -20,24 +20,25 @@ private:
 
 class ZipAsyncWorker : public Napi::AsyncWorker {
 public:
-    ZipAsyncWorker(Napi::Function& callback, std::string pathToSave, std::string fileLocation)
-        : Napi::AsyncWorker(callback), pathToSave(pathToSave), fileLocation(fileLocation), result(0) {}
+    ZipAsyncWorker(Napi::Function& callback, ZipStream* zipStream, std::string pathToSave, std::string fileLocation)
+        : Napi::AsyncWorker(callback), zipStream(zipStream), pathToSave(pathToSave), fileLocation(fileLocation), result(0) {}
 
     void Execute() override {
-        result = ZipStream.Add(pathToSave, fileLocation);
+        result = zipStream->Add(pathToSave, fileLocation);
     }
 
     void OnOK() override {
         Napi::HandleScope scope(Env());
-        Callback().Call({Env().Null()});
-    }
-
-    void OnError(const Napi::Error& e) override {
-        Napi::HandleScope scope(Env());
-        Callback().Call({e.Value()});
+        if (result != 0) {
+            std::string errorMsg = "Failed to add file to zip. Error code: " + std::to_string(result);
+            Callback().Call({Napi::Error::New(Env(), errorMsg).Value()});
+        } else {
+            Callback().Call({Env().Null(), Napi::Number::New(Env(), result)});
+        }
     }
 
 private:
+    ZipStream* zipStream;
     std::string pathToSave;
     std::string fileLocation;
     int result;

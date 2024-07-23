@@ -61,7 +61,7 @@ Napi::Value FileZip::ZipAsync(const Napi::CallbackInfo& info) {
     std::string fileLocationStr = info[1].As<Napi::String>().Utf8Value();
     Napi::Function callback = info[2].As<Napi::Function>();
 
-    ZipAsyncWorker* worker = new ZipAsyncWorker(callback, pathToSaveStr, fileLocationStr);
+    ZipAsyncWorker* worker = new ZipAsyncWorker(callback, &this->zipStream, pathToSaveStr, fileLocationStr);
     worker->Queue();
 
     return env.Undefined();
