@@ -24,7 +24,7 @@ public:
         : Napi::AsyncWorker(callback), pathToSave(pathToSave), fileLocation(fileLocation), result(0) {}
 
     void Execute() override {
-        result = zipStream.Add(pathToSave, fileLocation);
+        result = ZipStream.Add(pathToSave, fileLocation);
     }
 
     void OnOK() override {
