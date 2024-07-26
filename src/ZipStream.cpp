@@ -61,7 +61,7 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
         // create central directory, increment central directory count
         std::vector<uint8_t > record = createCentralDirectoryRecord(restOfPath);
         centralDirectoryRecords.push_back(record);
-        setCentralDirectoryCount(centralDirectoryCount + 1);
+
         centralDirectoryHeaderOffset += static_cast<uint32_t>(record.size());
 
         // create local header here, increment local header offset
@@ -115,7 +115,8 @@ int ZipStream::Add(std::string pathToSave, std::string fileLocation) {
     // create central directory, increment central directory count
     std::vector<uint8_t> record = createCentralDirectoryRecord(formattedFullPath, props);
     centralDirectoryRecords.push_back(record);
-    setCentralDirectoryCount(centralDirectoryCount + 1);
+
+
     centralDirectoryHeaderOffset += static_cast<uint32_t>(record.size());
 
     // create local file header, increment local header offset
@@ -251,6 +252,9 @@ std::vector<uint8_t> ZipStream::createCentralDirectoryRecord(const std::string &
         record.push_back('/');
     }
 
+    // increment central directory count
+    *centralDirectoryCount++;
+
     return record;
 }
 
@@ -325,6 +329,8 @@ std::vector<uint8_t> ZipStream::createCentralDirectoryRecord(const std::string &
     // File name
     record.insert(record.end(), path.begin(), path.end());
 
+    // Increment central directory count
+    *centralDirectoryCount++;
     return record;
 }
 
@@ -458,7 +464,7 @@ std::vector<uint8_t> ZipStream::createEOCDRecord() {
 
     // Number of central directory records on this disk (2 bytes)
     // and total number central directory records (2 bytes)
-    uint16_t centralDirCount = static_cast<uint16_t>(centralDirectoryCount);
+    uint16_t centralDirCount = static_cast<uint16_t>(*centralDirectoryCount);
     eocdRecord.insert(eocdRecord.end(), reinterpret_cast<uint8_t*>(&centralDirCount), reinterpret_cast<uint8_t*>(&centralDirCount) + 2);
     eocdRecord.insert(eocdRecord.end(), reinterpret_cast<uint8_t*>(&centralDirCount), reinterpret_cast<uint8_t*>(&centralDirCount) + 2);
 
