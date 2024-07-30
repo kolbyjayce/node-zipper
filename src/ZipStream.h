@@ -22,7 +22,7 @@ public:
 
 private:
     HashTable hashTablePaths;
-    uint16_t* centralDirectoryCount = 0;
+    uint16_t centralDirectoryCount = 0;
     uint32_t localHeaderOffset = 0x00;
     uint32_t centralDirectoryHeaderOffset = 0x00;
     std::vector<std::vector<uint8_t>> centralDirectoryRecords;

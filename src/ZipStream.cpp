@@ -253,7 +253,7 @@ std::vector<uint8_t> ZipStream::createCentralDirectoryRecord(const std::string &
     }
 
     // increment central directory count
-    *centralDirectoryCount++;
+    centralDirectoryCount++;
 
     return record;
 }
@@ -330,7 +330,7 @@ std::vector<uint8_t> ZipStream::createCentralDirectoryRecord(const std::string &
     record.insert(record.end(), path.begin(), path.end());
 
     // Increment central directory count
-    *centralDirectoryCount++;
+    centralDirectoryCount++;
     return record;
 }
 
@@ -464,9 +464,8 @@ std::vector<uint8_t> ZipStream::createEOCDRecord() {
 
     // Number of central directory records on this disk (2 bytes)
     // and total number central directory records (2 bytes)
-    uint16_t centralDirCount = static_cast<uint16_t>(*centralDirectoryCount);
-    eocdRecord.insert(eocdRecord.end(), reinterpret_cast<uint8_t*>(&centralDirCount), reinterpret_cast<uint8_t*>(&centralDirCount) + 2);
-    eocdRecord.insert(eocdRecord.end(), reinterpret_cast<uint8_t*>(&centralDirCount), reinterpret_cast<uint8_t*>(&centralDirCount) + 2);
+    eocdRecord.insert(eocdRecord.end(), reinterpret_cast<uint8_t*>(&centralDirectoryCount), reinterpret_cast<uint8_t*>(&centralDirectoryCount) + 2);
+    eocdRecord.insert(eocdRecord.end(), reinterpret_cast<uint8_t*>(&centralDirectoryCount), reinterpret_cast<uint8_t*>(&centralDirectoryCount) + 2);
 
     // Size of central directory (4 bytes)
     uint32_t centralDirectorySize = centralDirectoryHeaderOffset - localHeaderOffset;

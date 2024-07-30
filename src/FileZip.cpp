@@ -7,8 +7,8 @@ Napi::Object FileZip::Init(Napi::Env env, Napi::Object exports) {
     Napi::HandleScope scope(env);
 
     Napi::Function func = DefineClass(env, "FileZip", {
-        InstanceMethod("Zip", &FileZip::Zip),
-        InstanceMethod("Save", &FileZip::Save)
+        InstanceMethod("zip", &FileZip::zip),
+        InstanceMethod("save", &FileZip::save)
     });
 
     constructor = Napi::Persistent(func);
@@ -27,9 +27,8 @@ FileZip::FileZip(const Napi::CallbackInfo& info) : Napi::ObjectWrap<FileZip>(inf
     }
 }
 
-Napi::Value FileZip::Zip(const Napi::CallbackInfo& info) {
+Napi::Value FileZip::zip(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
-
     if (info.Length() < 2 || !info[0].IsString() || !info[1].IsString()) {
         Napi::TypeError::New(env, "Two string arguments required: pathToSave and fileLocation").ThrowAsJavaScriptException();
         return env.Null();
@@ -49,7 +48,7 @@ Napi::Value FileZip::Zip(const Napi::CallbackInfo& info) {
     return env.Undefined();
 }
 
-Napi::Value FileZip::ZipAsync(const Napi::CallbackInfo& info) {
+Napi::Value FileZip::zipAsync(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
     if (info.Length() < 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsFunction()) {
@@ -67,7 +66,7 @@ Napi::Value FileZip::ZipAsync(const Napi::CallbackInfo& info) {
     return env.Undefined();
 }
 
-Napi::Value FileZip::Save(const Napi::CallbackInfo& info) {
+Napi::Value FileZip::save(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
     if (info.Length() < 1 || !info[0].IsString()) {

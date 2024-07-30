@@ -7,19 +7,20 @@ settings:
 importers:
 
   .:
-    devDependencies:
+    dependencies:
       '@mapbox/node-pre-gyp':
         specifier: ^1.0.11
         version: 1.0.11
+      node-addon-api:
+        specifier: ^8.1.0
+        version: 8.1.0
+    devDependencies:
       chai:
         specifier: ^5.1.1
         version: 5.1.1
       mocha:
         specifier: ^10.6.0
         version: 10.6.0
-      node-addon-api:
-        specifier: ^8.1.0
-        version: 8.1.0
 
 packages:
 

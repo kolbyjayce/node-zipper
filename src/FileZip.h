@@ -11,9 +11,9 @@ public:
 private:
     static Napi::FunctionReference constructor;
 
-    Napi::Value Zip(const Napi::CallbackInfo& info);
-    Napi::Value ZipAsync(const Napi::CallbackInfo& info);
-    Napi::Value Save(const Napi::CallbackInfo& info);
+    Napi::Value zip(const Napi::CallbackInfo& info);
+    Napi::Value zipAsync(const Napi::CallbackInfo& info);
+    Napi::Value save(const Napi::CallbackInfo& info);
 
     ZipStream zipStream;
 };

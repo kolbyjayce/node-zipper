@@ -16,10 +16,10 @@ const { FileZip } = require("node-zipper"); // commonJS syntax
 const zipper = new FileZip();
 
 // first argument is location to save to inside zip folder, second argument is path to file (must be local path to file)
-zipper.Zip("path/in/zip/file.txt", "/path/to/file.txt");
+zipper.zip("path/in/zip/file.txt", "/path/to/file.txt");
 // ... repeat
 
-zipper.Save("/path/to/save/example.zip");
+zipper.save("/path/to/save/example.zip");
 ```
 
 ### Current Limitations
@@ -40,6 +40,15 @@ npm install
 ```
 
 This will install all needed dependencies along with building the module. Once built, javascript demo can be written to import library from "lib/binding/Release"
+
+Subsequent compilations after code changes can be compiled with
+```bash
+npm build
+```
+
+This will recompile c++ source code to Javascript to be tested again.
+
+Alternatively, by creating a CMakeLists.txt file with ZipStream, HashTable, and CRC32, a fully functional c++ project can be created for testing independent of the Javascript ecosystem and FileZip class declarations. This allows for fast development focusing on C++ code.
 
 ### Repository Structure
 
